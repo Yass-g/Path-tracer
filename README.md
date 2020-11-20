@@ -19,7 +19,7 @@ Done:<br/>
 <br/>
 <br/>Demo: (128 samples) <br/>
 
-![alt text](https://github.com/Yass-g/Path-tracer/blob/main/RayTrace/exple/01_spheres_128samples.png)
+![alt text](https://github.com/Yass-g/Path-tracer/blob/master/RayTrace/exple/01_spheres_128samples.png)
 
 
 
