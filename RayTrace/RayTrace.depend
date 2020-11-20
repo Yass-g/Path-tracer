@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1603934607 source:c:\users\yassine\documents\c++ practice\raytrace\main.cpp
+	<math.h>
+	<stdio.h>
+	<cstdlib>
+	<stdlib.h>
+	<random>
+	<iostream>
+	<vector>
+	"geometry.h"
+
+1603934772 c:\users\yassine\documents\c++ practice\raytrace\geometry.h
+	<math.h>
+	<stdio.h>
+	<cstdlib>
+	<stdlib.h>
+	<random>
+	<iostream>
+
