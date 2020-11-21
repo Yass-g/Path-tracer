@@ -1,3 +1,9 @@
+/**
+    geometry.h
+    Provides the geometrical description for the main file.
+    @author Yass-g
+    @version 1.1 21/11/20 
+*/
 #include <math.h>   
 #include <stdio.h>  
 #include <cstdlib>
