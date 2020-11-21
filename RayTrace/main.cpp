@@ -1,3 +1,10 @@
+/**
+    main.cpp
+    outputs a .ppm file, representing a scene by solving the rendering equation (Monte Carlo)
+    the number of samples is set as an argument (default : 4*smp = 4)
+    @author Yass-g
+    @version 1.1 21/11/20 
+*/
 #include <math.h>
 #include <stdio.h>
 #include <cstdlib>
@@ -90,7 +97,8 @@ Vect radiance(const Ray & r_, int depth_) { //solving the rendering equation (Mo
 }
 int main(int argc, char * argv[]) {
 
-  int w = 1024, h = 768, smp = 1;                                                     // resolution and samples
+  int w = 1024, h = 768;
+  int smp = argc==2 ? atoi(argv[1])/4 : 1;                                          //number of samples per pixel divided by 4 (we'll work on 2x2 subpixels)         
   Ray cam(Vect(50, 50, 295), Vect(0, -0.042612, -1).norm());                          // camera settings
   Vect cx = Vect(w * .5135 / h), cy = (cx % cam.d).norm() * .5135, r, * im = new Vect[w * h];
 
