@@ -24,7 +24,7 @@ Done:<br/>
 
 <br/>Metallic reflection: (128 samples) <br/>
 
-![alt text](https://github.com/Yass-g/Path-tracer/blob/master/RayTrace/exple/metallic%20reflection.ppm)
+![alt text](https://github.com/Yass-g/Path-tracer/blob/master/RayTrace/exple/metallic reflection.ppm)
 
 
 
