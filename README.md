@@ -22,6 +22,13 @@ Done:<br/>
 
 ![alt text](https://github.com/Yass-g/Path-tracer/blob/master/RayTrace/exple/01_spheres_128samples.png)
 
+<br/>Metallic reflection: (128 samples) <br/>
+
+![alt text](https://github.com/Yass-g/Path-tracer/blob/master/RayTrace/exple/metallic%20reflection.ppm)
+
+
+
+
 
 
 
