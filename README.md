@@ -1,5 +1,5 @@
 # Path-tracer
-This project is about building a **ray-tracer**, renderering images of 3D scenes based on global illumination, simulating diffuse, specular and dielectric materials, by giving a numerical solution to the rendering equation using **Monte-Carlo** path tracing with **Russian Roulette**.
+This project is about building a **ray-tracer**, renderering images (exported in ppm format) of 3D scenes based on global illumination, simulating diffuse, specular and dielectric materials, by giving a numerical solution to the rendering equation using **Monte-Carlo** path tracing with **Russian Roulette**.
 <br/>Currently, renderer features :<br/>
 -specular, diffuse and refraction<br/>
 -soft shadows<br/>
@@ -24,7 +24,7 @@ Done:<br/>
 
 <br/>Metallic reflection: (128 samples) <br/>
 
-![alt text](https://github.com/Yass-g/Path-tracer/blob/master/RayTrace/exple/metallic reflection.ppm)
+![alt text](https://github.com/Yass-g/Path-tracer/blob/master/RayTrace/exple/metallic-reflection.png)
 
 
 
