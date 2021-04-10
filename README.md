@@ -13,6 +13,7 @@ This project is about building a **ray-tracer**, renderering images of 3D scenes
 -surface textures.<br/>
 -and many more..<br/>
 Done:<br/>
+-~metallic reflection~<br/>
 -~parallelizing the image rendering~<br/>
 -~~add primitives (planes, cubes...)~~<br/>
 <br/>
