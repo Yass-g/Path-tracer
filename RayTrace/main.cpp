@@ -13,10 +13,11 @@
 #include <vector>
 #include "geometry.h"
 
-std:: default_random_engine generator;
-std::uniform_real_distribution<double> distr(0.0,1.0);
-#define M_PI 3.1415926
 using namespace std;
+default_random_engine generator;
+uniform_real_distribution<double> distr(0.0,1.0);
+#define M_PI 3.1415926
+
 Vect tc(0.0588, 0.361, 0.0941);
 //Scene builder;
 double R=60;
@@ -27,15 +28,15 @@ double T=30*M_PI/180.;
 double D=R/cos(T);
 double Z=60;
 vector<Object*> Scene = {
-new  Sphere(1600, Vect(1,0,2)*3000, Vect(1,.9,.8)*6e1,Vect(), DIFF), // Light
-new  Sphere(1560, Vect(1,0,2)*3500,Vect(1,.5,.05)*2e2, Vect(),  DIFF),
-new  Sphere(110000, Vect(50, -110048.5, 0),  Vect(.9,.5,.05)*4,Vect(),DIFF),
-new  Sphere(10000,Vect(50,40,-1000), Vect(0.00063842, 0.02001478, 0.28923243)*5e-1, Vect(.3,.3,1)*.50,  DIFF), // Backgrnd
-new  Sphere(100000, Vect(50, -100000, 0),  Vect(),Vect(.3,.3,.3),DIFF), // floor
-new  Sphere(26.5,Vect(60,26.5,22),   Vect(),Vect(1,1,1)*.596, IMP_SPEC),
-new  Sphere(13,Vect(22,13,62),   Vect(),Vect(.96,.96,.96)*.96, IMP_SPEC),
-new  Sphere(8,Vect(80,8,80),   Vect(),Vect(.66,66,.96)*.96, DIFF),
-new  Sphere(10,Vect(60,10,80),   Vect(),Vect(.66,.66,.96)*.96, DIFF),
+    new  Sphere(1600, Vect(1,0,2)*3000, Vect(.8,.8,.8)*1e100,Vect(), DIFF), // Light
+    //new  Sphere(1560, Vect(1,0,2)*3500,Vect(.4,.4,.4)*2e100, Vect(),  DIFF),
+    new  Sphere(110000, Vect(50, -110048.5, 0),  Vect(.5,.5,.5)*4,Vect(),DIFF),
+    new  Sphere(10000,Vect(50,40,-1000), Vect(0.00063842, 0.02001478, 0.28923243)*5e-1, Vect(.3,.3,1)*.50,  DIFF), // Backgrnd
+    new  Sphere(100000, Vect(50, -100000, 0),  Vect(),Vect(.3,.3,.3),SPEC), // floor
+    new  Sphere(26.5,Vect(60,26.5,22),   Vect(),Vect(1,1,1)*0.6, DIFF),
+    //new  Sphere(13,Vect(22,13,62),   Vect(),Vect(.96,.96,.96), IMP_SPEC),
+    //new  Sphere(8,Vect(80,8,80),   Vect(),Vect(.66,1,.96), REFR),
+    //new  Sphere(10,Vect(60,10,80),   Vect(),Vect(.66,.66,.96), DIFF),
 };
 bool intersect(const Ray &r, double &t, int &id){ // closest intersection with object in scene
   double n= Scene.size(), d, inf=t=1e20;
@@ -43,12 +44,12 @@ bool intersect(const Ray &r, double &t, int &id){ // closest intersection with o
   {
       d=Scene[i]->intersect(r);
       if(d&&d<t)
-        {t=d;id=i;}
+        t=d;id=i;
   }
   return t<inf;
 }
 
-Vect radiance(const Ray &r_, int depth_){ //solving the rendering equation (Monte Carlo+Russian roulette)
+Vect rendering(const Ray &r_, int depth_){ //solving the rendering equation (Monte Carlo+Russian roulette)
   double t;
   int id=0;
   Ray r=r_;
@@ -116,11 +117,24 @@ Vect radiance(const Ray &r_, int depth_){ //solving the rendering equation (Mont
   }
 }
 int main(int argc, char *argv[]){
-  int w=1024, h=768, smp = 1; // resolution and samples
-  Ray cam(Vect(50,50,295), Vect(0,0,-1).norm()); // camera settings
-  Vect cx=Vect(w*0.5135/h), cy=(cx%cam.d).norm()*0.5135, r, *im=new Vect[w*h];
-
-   // generating image
+  int w=1024, h=768, smp = 2; // resolution and samples
+  Ray cam(Vect(50,25,295), Vect(0,0,-1).norm()); // camera settings
+  Vect cx=Vect(w*0.5135/h), cy=(cx%cam.d).norm()*0.5135, r, *out=new Vect[w*h];
+  int N = 150;
+    // generate scene
+  for(int i=0; i<N; i++)
+  {
+      double r = 2*erand48(1) + 2.0;
+      double x = erand48(1)*170.0 -50;
+      double y = -erand48(1)*500.0+100.0;
+      double red = erand48(1);
+      double  green = erand48(1);
+      double blue = erand48(1);
+      int m = rand()%4;
+      cout<<r<<"  "<<x<<"  "<<y<<"  "<<m<<"  "<<endl;
+      Scene.push_back(new  Sphere(r,Vect(x,r,y),   Vect(),Vect(i%2,(i+1)%2,rand()%2), (m==0)?DIFF:(m==1)?SPEC:(m==1)?IMP_SPEC:REFR));
+  }
+   // generating outage
   for (int y=0; y<h; y++){
     fprintf(stderr,"\rDone at (%d spp) %5.2f%%",smp*4,100.*y/(h-1));
     for (unsigned short x=0; x<w; x++)
@@ -131,13 +145,13 @@ int main(int argc, char *argv[]){
             double r1=2*erand48(1), dx=r1<1 ? sqrt(r1)-1: 1-sqrt(2-r1);
             double r2=2*erand48(1), dy=r2<1 ? sqrt(r2)-1: 1-sqrt(2-r2);
             Vect d = cx*( ( (sx+.5 + dx)/2 + x)/w - .5) + cy*( ( (sy+.5 + dy)/2 + y)/h - .5) + cam.d;
-            r = r + radiance(Ray(cam.o+d*140,d.norm()),0)*(1./smp);
+            r = r + rendering(Ray(cam.o+d*140,d.norm()),0)*(1./smp);
           }
-          im[i] = im[i] + Vect(bound(r.x),bound(r.y),bound(r.z))*.25;
+          out[i] = out[i] + Vect(bound(r.x),bound(r.y),bound(r.z))*.25;
         }
   }
-  FILE *f = fopen("image_test4.ppm", "w");
+  FILE *f = fopen("metaltest8smp+.ppm", "w");
   fprintf(f, "P3\n%d %d\n%d\n", w, h, 255);
   for (int i=0; i<w*h; i++)
-    fprintf(f,"%d %d %d ", toInt(im[i].x), toInt(im[i].y), toInt(im[i].z));
+    fprintf(f,"%d %d %d ", toInt(out[i].x), toInt(out[i].y), toInt(out[i].z));
 }
