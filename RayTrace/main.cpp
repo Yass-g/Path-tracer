@@ -19,14 +19,12 @@ uniform_real_distribution<double> distr(0.0,1.0);
 #define M_PI 3.1415926
 
 Vect tc(0.0588, 0.361, 0.0941);
-//Scene builder;
 double R=60;
-//double R=120;
 Vect Cen(50,40.8,-860);
-
 double T=30*M_PI/180.;
 double D=R/cos(T);
 double Z=60;
+
 vector<Object*> Scene = {
     new  Sphere(1600, Vect(1,0,2)*3000, Vect(.8,.8,.8)*1e100,Vect(), DIFF), // Light
     //new  Sphere(1560, Vect(1,0,2)*3500,Vect(.4,.4,.4)*2e100, Vect(),  DIFF),
@@ -38,6 +36,7 @@ vector<Object*> Scene = {
     //new  Sphere(8,Vect(80,8,80),   Vect(),Vect(.66,1,.96), REFR),
     //new  Sphere(10,Vect(60,10,80),   Vect(),Vect(.66,.66,.96), DIFF),
 };
+
 bool intersect(const Ray &r, double &t, int &id){ // closest intersection with object in scene
   double n= Scene.size(), d, inf=t=1e20;
   for(int i=int(n);i--;)
@@ -116,6 +115,8 @@ Vect rendering(const Ray &r_, int depth_){ //solving the rendering equation (Mon
 
   }
 }
+
+
 int main(int argc, char *argv[]){
   int w=1024, h=768, smp = 2; // resolution and samples
   Ray cam(Vect(50,25,295), Vect(0,0,-1).norm()); // camera settings
